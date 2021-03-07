@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/my-app/static/css/main.3e6d7a28.chunk.css",
+    "main.js": "/my-app/static/js/main.42611410.chunk.js",
+    "main.js.map": "/my-app/static/js/main.42611410.chunk.js.map",
+    "runtime-main.js": "/my-app/static/js/runtime-main.b8ebb44f.js",
+    "runtime-main.js.map": "/my-app/static/js/runtime-main.b8ebb44f.js.map",
+    "static/js/2.ad4ad9ed.chunk.js": "/my-app/static/js/2.ad4ad9ed.chunk.js",
+    "static/js/2.ad4ad9ed.chunk.js.map": "/my-app/static/js/2.ad4ad9ed.chunk.js.map",
+    "index.html": "/my-app/index.html",
+    "precache-manifest.f126f2601973d0e64b6f9735736ae747.js": "/my-app/precache-manifest.f126f2601973d0e64b6f9735736ae747.js",
+    "service-worker.js": "/my-app/service-worker.js",
+    "static/css/main.3e6d7a28.chunk.css.map": "/my-app/static/css/main.3e6d7a28.chunk.css.map",
+    "static/js/2.ad4ad9ed.chunk.js.LICENSE.txt": "/my-app/static/js/2.ad4ad9ed.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/my-app/static/media/girl_with_computer.89e669d7.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b8ebb44f.js",
+    "static/js/2.ad4ad9ed.chunk.js",
+    "static/css/main.3e6d7a28.chunk.css",
+    "static/js/main.42611410.chunk.js"
+  ]
+}
