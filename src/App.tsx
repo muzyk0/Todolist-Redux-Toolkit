@@ -43,6 +43,28 @@ function App() {
         ]
     })
 
+        useEffect(() => {
+            const todoListsItems = localStorage.getItem('todoLists')
+            if (todoListsItems) {
+                const newTodoListsItems = JSON.parse(todoListsItems)
+                setTodoLists(newTodoListsItems)
+            }
+        }, [])
+        useEffect(() => {
+            localStorage.setItem('todoLists', JSON.stringify(todoLists))
+        }, [todoLists])
+
+        useEffect(() => {
+            const tasksTodolist = localStorage.getItem('tasksLists')
+            if (tasksTodolist) {
+                const newTasksTodoLists = JSON.parse(tasksTodolist)
+                setTasks(newTasksTodoLists)
+            }
+        }, [])
+        useEffect(() => {
+            localStorage.setItem('tasksLists', JSON.stringify(tasks))
+        }, [tasks])
+
     function removeTask(taskID: string, todoListID: string) {
         // const todoListTasks = tasks[todoListID]
         // const filteredTasks = todoListTasks.filter(t => t.id !== taskID)
