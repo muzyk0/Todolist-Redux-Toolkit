@@ -11,7 +11,8 @@ type TodoListPropsType = {
     addTask: (taskID: string, todoListID: string) => void
     removeTask: (taskID: string, todoListID: string) => void
     removeTodoList: (todoListID: string) => void
-    changeForTodoList: (newFilterValue: FilterValuesType, todoListID: string) => void
+    changeTodoListFilter: (newFilterValue: FilterValuesType, todoListID: string) => void
+    changeTodoListTitle: (newTitle: string, todoListID: string) => void
     changeTaskStatus: (taskID: string, newIsDoneValue: boolean, todoListID: string) => void
     changeTaskTitle: (taskID: string, newTitle: string, todoListID: string) => void
 }
@@ -23,9 +24,10 @@ function TodoList(props: TodoListPropsType) {
     const removeTodoList = () => {
         props.removeTodoList(props.todoListID)
     }
-    const setAllFilter = () => props.changeForTodoList('all', props.todoListID)
-    const setActiveFilter = () => props.changeForTodoList('active', props.todoListID)
-    const setCompletedFilter = () => props.changeForTodoList('completed', props.todoListID)
+    const setAllFilter = () => props.changeTodoListFilter('all', props.todoListID)
+    const setActiveFilter = () => props.changeTodoListFilter('active', props.todoListID)
+    const setCompletedFilter = () => props.changeTodoListFilter('completed', props.todoListID)
+    const changeTodoListTitle = (title: string) => props.changeTodoListTitle(title, props.todoListID)
 
 
     const tasks = props.tasks.map(task => {
@@ -50,7 +52,8 @@ function TodoList(props: TodoListPropsType) {
     )
     return (
         <div className={'task'}>
-            <h3>{props.title}
+            <h3>
+                <EditableSpan title={props.title} changeTitle={changeTodoListTitle}/>
                 <button onClick={removeTodoList}>X</button>
             </h3>
             <AddItemForm addItem={addTask}/>
