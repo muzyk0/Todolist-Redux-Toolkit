@@ -1,4 +1,4 @@
-import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterValuesType, TasksType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
@@ -38,7 +38,7 @@ function TodoList(props: TodoListPropsType) {
                 props.changeTaskTitle(task.id, newTitle, props.todoListID)
             }
             return (
-                <li className={task.isDone ? 'isDone' : ''}>
+                <li className={task.isDone ? 'isDone' : ''} key={task.id}>
                     <input
                         type="checkbox"
                         checked={task.isDone}
