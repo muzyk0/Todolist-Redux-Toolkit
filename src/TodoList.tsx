@@ -2,6 +2,8 @@ import React, {ChangeEvent} from 'react';
 import {FilterValuesType, TasksType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
+import {Button, Checkbox, IconButton} from '@material-ui/core';
+import {Delete} from '@material-ui/icons';
 
 type TodoListPropsType = {
     todoListID: string
@@ -38,14 +40,15 @@ function TodoList(props: TodoListPropsType) {
                 props.changeTaskTitle(task.id, newTitle, props.todoListID)
             }
             return (
-                <li className={task.isDone ? 'isDone' : ''} key={task.id}>
-                    <input
-                        type="checkbox"
+                <li style={task.isDone ? {opacity: '0.5'} : {}} key={task.id}>
+                    <Checkbox
                         checked={task.isDone}
                         onChange={changeTaskStatus}
                     />
                     <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
-                    <button onClick={removeTask}>X</button>
+                    <IconButton>
+                        <Delete onClick={removeTask}>X</Delete>
+                    </IconButton>
                 </li>
             )
         }
@@ -54,22 +57,32 @@ function TodoList(props: TodoListPropsType) {
         <div className={'task'}>
             <h3>
                 <EditableSpan title={props.title} changeTitle={changeTodoListTitle}/>
-                <button onClick={removeTodoList}>X</button>
+                <IconButton>
+                    <Delete onClick={removeTodoList}>X</Delete>
+                </IconButton>
             </h3>
             <AddItemForm addItem={addTask}/>
-            <ul>
+            <ul style={{listStyle: 'none', paddingLeft: 0}}>
                 {tasks}
             </ul>
             <div>
-                <button className={props.filter === 'all' ? 'selected' : ''}
-                        onClick={setAllFilter}>All
-                </button>
-                <button className={props.filter === 'active' ? 'selected' : ''}
-                        onClick={setActiveFilter}>Active
-                </button>
-                <button className={props.filter === 'completed' ? 'selected' : ''}
-                        onClick={setCompletedFilter}>Completed
-                </button>
+                <Button
+                    variant={props.filter === 'all' ? 'contained' : 'text'}
+                    size={'small'}
+                    onClick={setAllFilter}>All
+                </Button>
+                <Button
+                    variant={props.filter === 'active' ? 'contained' : 'text'}
+                    color={'secondary'}
+                    size={'small'}
+                    onClick={setActiveFilter}>Active
+                </Button>
+                <Button
+                    variant={props.filter === 'completed' ? 'contained' : 'text'}
+                    color={'primary'}
+                    size={'small'}
+                    onClick={setCompletedFilter}>Completed
+                </Button>
             </div>
         </div>
     )

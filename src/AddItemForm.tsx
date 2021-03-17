@@ -1,4 +1,6 @@
-import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {ControlPoint} from '@material-ui/icons';
+import {IconButton, TextField} from '@material-ui/core';
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -6,12 +8,12 @@ type AddItemFormPropsType = {
 
 export function AddItemForm(props: AddItemFormPropsType) {
     const [title, setTitle] = useState<string>('')
-    const [error, setError] = useState<boolean>(false)
-    // const [error, setError] = useState<string | null>(null)
+    // const [error, setError] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null)
 
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
-        setError(false)
+        setError(null)
     }
     const onKeyPressAddItem = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -23,22 +25,26 @@ export function AddItemForm(props: AddItemFormPropsType) {
         if (trimmedTitle) {
             props.addItem(trimmedTitle)
         } else {
-            setError(true)
-            // setError('Title is required!')
+            //setError(true)
+            setError('Title is required!')
         }
         setTitle('')
     }
     return (
         <div>
-            <input
-                className={error ? 'error' : ''}
+            <TextField
+                label="Type value"
+                variant={'outlined'}
+                error={!!error}
+                helperText={error}
                 value={title}
                 onChange={changeTitle}
                 onKeyPress={onKeyPressAddItem}
             />
-
-            <button onClick={addItem}>Add</button>
-            {error && <div className={'errorMessage'}>'Title is required!'</div>} {/*{error}*/}
+            <IconButton onClick={addItem}>
+                <ControlPoint/>
+            </IconButton>
+            {/*{error && <div className={'errorMessage'}>'Title is required!'</div>} /!*{error}*!/*/}
         </div>
     )
 }
