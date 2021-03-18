@@ -3,7 +3,19 @@ import './App.css';
 import TodoList from './TodoList';
 import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
-import {AppBar, Button, IconButton, Typography, Toolbar, Container, Grid, Paper} from '@material-ui/core';
+import {
+    AppBar,
+    Button,
+    IconButton,
+    Typography,
+    Toolbar,
+    Container,
+    Grid,
+    Paper,
+    makeStyles,
+    Theme, createStyles
+} from '@material-ui/core';
+import {Menu} from '@material-ui/icons';
 
 export type TasksType = {
     id: string
@@ -22,13 +34,9 @@ type TaskStateType = {
     [key: string]: TasksType[]
 }
 
-class MenuIcon extends React.Component {
-    render() {
-        return null;
-    }
-}
 
 function App() {
+
 
     const todoListID_1 = v1();
     const todoListID_2 = v1();
@@ -40,8 +48,10 @@ function App() {
     const [tasks, setTasks] = useState<TaskStateType>({
         [todoListID_1]: [
             {id: v1(), title: 'CSS', isDone: true},
-            {id: v1(), title: 'HTML', isDone: false},
+            {id: v1(), title: 'HTML', isDone: true},
             {id: v1(), title: 'JS', isDone: false},
+            {id: v1(), title: 'REACT', isDone: false},
+            {id: v1(), title: 'Graph QL', isDone: false},
         ],
         [todoListID_2]: [
             {id: v1(), title: 'Milk', isDone: true},
@@ -156,8 +166,8 @@ function App() {
         }
 
         return (
-            <Grid item>
-                <Paper style={{padding: '10px'}}>
+            <Grid item key={tl.id}>
+                <Paper elevation={6} style={{padding: '10px'}}>
                     <TodoList
                         key={tl.id}
                         todoListID={tl.id}
@@ -177,16 +187,30 @@ function App() {
         )
     })
 
+    const useStyles = makeStyles((theme: Theme) =>
+        createStyles({
+            root: {
+                flexGrow: 1,
+            },
+            menuButton: {
+                marginRight: theme.spacing(2),
+            },
+            title: {
+                flexGrow: 1,
+            },
+        }),
+    );
+    const classes = useStyles();
 
     return (
-        <div className={'App'}>
+        <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <MenuIcon/>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <Menu/>
                     </IconButton>
-                    <Typography variant="h6">
-                        News
+                    <Typography variant="h6" className={classes.title}>
+                        TodoList
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>

@@ -40,14 +40,14 @@ function TodoList(props: TodoListPropsType) {
                 props.changeTaskTitle(task.id, newTitle, props.todoListID)
             }
             return (
-                <li style={task.isDone ? {opacity: '0.5'} : {}} key={task.id}>
+                <li style={task.isDone ? {opacity: '0.5'} : {opacity: 1}} key={task.id}>
                     <Checkbox
                         checked={task.isDone}
                         onChange={changeTaskStatus}
                     />
                     <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
-                    <IconButton>
-                        <Delete onClick={removeTask}>X</Delete>
+                    <IconButton onClick={removeTask}>
+                        <Delete/>
                     </IconButton>
                 </li>
             )
@@ -57,8 +57,8 @@ function TodoList(props: TodoListPropsType) {
         <div className={'task'}>
             <h3>
                 <EditableSpan title={props.title} changeTitle={changeTodoListTitle}/>
-                <IconButton>
-                    <Delete onClick={removeTodoList}>X</Delete>
+                <IconButton onClick={removeTodoList}>
+                    <Delete/>
                 </IconButton>
             </h3>
             <AddItemForm addItem={addTask}/>
