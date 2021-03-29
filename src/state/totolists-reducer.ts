@@ -33,7 +33,7 @@ export const todoListsReducer = (todoLists: TodoListType[], action: ActionType) 
         case 'ADD-TODOLIST':
             const newTodoListID = v1()
             const newTodoList: TodoListType = {id: newTodoListID, title: action.title, filter: 'all'}
-            return [newTodoList, ...todoLists]
+            return [...todoLists, newTodoList]
         case 'CHANGE-TODOLIST-TITLE': {
             const todoList = todoLists.find(tl => tl.id === action.id)
             if (todoList) {

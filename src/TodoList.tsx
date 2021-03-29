@@ -20,7 +20,6 @@ type TodoListPropsType = {
 }
 
 function TodoList(props: TodoListPropsType) {
-
     const addTask = (title: string) => props.addTask(title, props.todoListID)
 
     const removeTodoList = () => {
