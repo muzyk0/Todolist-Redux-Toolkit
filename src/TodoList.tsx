@@ -53,7 +53,7 @@ function TodoList(props: TodoListPropsType) {
         }
     )
     return (
-        <div className={'task'}>
+        <div>
             <h3>
                 <EditableSpan title={props.title} changeTitle={changeTodoListTitle}/>
                 <IconButton onClick={removeTodoList}>
