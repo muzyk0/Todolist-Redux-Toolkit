@@ -1,22 +1,20 @@
 {
   "files": {
-    "main.css": "/todolist/static/css/main.6dfe434c.chunk.css",
-    "main.js": "/todolist/static/js/main.7585baa0.chunk.js",
-    "main.js.map": "/todolist/static/js/main.7585baa0.chunk.js.map",
-    "runtime-main.js": "/todolist/static/js/runtime-main.283d8678.js",
-    "runtime-main.js.map": "/todolist/static/js/runtime-main.283d8678.js.map",
-    "static/js/2.326bf14f.chunk.js": "/todolist/static/js/2.326bf14f.chunk.js",
-    "static/js/2.326bf14f.chunk.js.map": "/todolist/static/js/2.326bf14f.chunk.js.map",
+    "main.css": "/todolist/static/css/main.9b314ee0.chunk.css",
+    "main.js": "/todolist/static/js/main.325a1490.chunk.js",
+    "main.js.map": "/todolist/static/js/main.325a1490.chunk.js.map",
+    "runtime-main.js": "/todolist/static/js/runtime-main.fd72009a.js",
+    "runtime-main.js.map": "/todolist/static/js/runtime-main.fd72009a.js.map",
+    "static/js/2.b009adc8.chunk.js": "/todolist/static/js/2.b009adc8.chunk.js",
+    "static/js/2.b009adc8.chunk.js.map": "/todolist/static/js/2.b009adc8.chunk.js.map",
     "index.html": "/todolist/index.html",
-    "precache-manifest.635708fee3caab51bf9a29b8147d7551.js": "/todolist/precache-manifest.635708fee3caab51bf9a29b8147d7551.js",
-    "service-worker.js": "/todolist/service-worker.js",
-    "static/css/main.6dfe434c.chunk.css.map": "/todolist/static/css/main.6dfe434c.chunk.css.map",
-    "static/js/2.326bf14f.chunk.js.LICENSE.txt": "/todolist/static/js/2.326bf14f.chunk.js.LICENSE.txt"
+    "static/css/main.9b314ee0.chunk.css.map": "/todolist/static/css/main.9b314ee0.chunk.css.map",
+    "static/js/2.b009adc8.chunk.js.LICENSE.txt": "/todolist/static/js/2.b009adc8.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.283d8678.js",
-    "static/js/2.326bf14f.chunk.js",
-    "static/css/main.6dfe434c.chunk.css",
-    "static/js/main.7585baa0.chunk.js"
+    "static/js/runtime-main.fd72009a.js",
+    "static/js/2.b009adc8.chunk.js",
+    "static/css/main.9b314ee0.chunk.css",
+    "static/js/main.325a1490.chunk.js"
   ]
 }
