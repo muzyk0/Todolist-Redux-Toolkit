@@ -27,7 +27,7 @@ export const Task: React.FC<TaskType> = React.memo((props) => {
     }
     const onTitleChangeHandler = useCallback((newTitle: string) => {
         changeTaskTitle(task.id, newTitle)
-    }, [task.id])
+    }, [changeTaskTitle, task.id])
 
     return (
         <li style={task.isDone ? {opacity: '0.5'} : {opacity: 1}}>
