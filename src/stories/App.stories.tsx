@@ -1,6 +1,4 @@
-import {Meta, Story} from "@storybook/react";
-import {action} from "@storybook/addon-actions";
-import {Task, TaskType} from '../Task';
+import {Meta, Story} from '@storybook/react';
 import App from '../App';
 import {ReduxStoreProviderDecorator} from './decorators/ReduxStoreProviderDecorator';
 
