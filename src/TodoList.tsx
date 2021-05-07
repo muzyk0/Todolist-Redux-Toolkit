@@ -54,13 +54,24 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
     const setActiveFilter = () => changeTodoListFilter('active', todoListID)
     const setCompletedFilter = () => changeTodoListFilter('completed', todoListID)
 
-    let tasksForTodolist = props.tasks
+    // let tasksForTodolist = props.tasks
+    //
+    // if (filter === 'active') {
+    //     tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
+    // }
+    // if (filter === 'completed') {
+    //     tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
+    // }
 
-    if (filter === 'active') {
-        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
-    }
-    if (filter === 'completed') {
-        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
+    const getTasksForTodoList = (tasks: TaskType[]) => {
+        switch (filter) {
+            case 'active':
+                return props.tasks.filter(t => t.status === TaskStatuses.New)
+            case 'completed':
+                return props.tasks.filter(t => t.status === TaskStatuses.Completed)
+            default:
+                return tasks
+        }
     }
 
     // const tasks = tasksForTodolist.map(task => {
@@ -97,7 +108,7 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
         props.changeTaskTitle(taskID, newTitle, todoListID)
     }, [props.changeTaskTitle, todoListID])
 
-    const tasks = tasksForTodolist.map(task => {
+    const tasks = getTasksForTodoList(props.tasks).map(task => {
             return <Task
                 key={task.id}
                 task={task}

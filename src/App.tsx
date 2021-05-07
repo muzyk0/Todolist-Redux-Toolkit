@@ -17,13 +17,13 @@ import {
 } from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
 import {
-    addTodolistAC,
     changeTodoListFilterAC,
-    changeTodoListTitleAC,
+    createTodoList,
+    deleteTodoList,
     fetchTodoLists,
     FilterValuesType,
-    removeTodoListAC,
-    TodoListDomainType
+    TodoListDomainType,
+    updateTodoListTitle
 } from './state/totolists-reducer';
 import {createTask, deleteTask, updateTaskStatus, updateTaskTitle} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
@@ -78,18 +78,16 @@ export function App() {
         dispatch(changeTodoListFilterAC(todoListID, newFilterValue))
 
     }, [dispatch])
-    const changeTodoListTitle = useCallback((newTitle: string, todoListID: string) => {
-        dispatch(changeTodoListTitleAC(todoListID, newTitle))
-
+    const addTodoList = useCallback((title: string) => {
+        dispatch(createTodoList(title))
     }, [dispatch])
     const removeTodoList = useCallback((todoListID: string) => {
-        const action = removeTodoListAC(todoListID)
-        dispatch(action)
+        dispatch(deleteTodoList(todoListID))
 
     }, [dispatch])
-    const addTodoList = useCallback((title: string) => {
-        const action = addTodolistAC(title)
-        dispatch(action)
+    const changeTodoListTitle = useCallback((newTitle: string, todoListID: string) => {
+        dispatch(updateTodoListTitle(todoListID, newTitle))
+
     }, [dispatch])
 
     // const getTasksForTodoList = (todoList: TodoListType): TasksType[] => {
@@ -104,8 +102,6 @@ export function App() {
     // }
 
     const todoListsComponents = todoLists.map(tl => {
-
-
         return (
             <Grid item key={tl.id}>
                 <Paper elevation={6} style={{padding: '10px'}}>
