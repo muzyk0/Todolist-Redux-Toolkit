@@ -1,6 +1,6 @@
 import {Meta, Story} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
-import {Task, TaskPropsType} from '../Task';
+import {Task, TaskPropsType} from '../features/TodoListsList/TodoList/Task/Task';
 import {TaskStatuses, TodoTaskPriorities} from '../api/todolist-api';
 
 export default {
