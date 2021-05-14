@@ -177,7 +177,7 @@ test('status of specified task should be changed', () => {
         startDate: '',
         priority: TodoTaskPriorities.Hi
     }
-    const action = updateTaskAC('2', model, 'todolistId2')
+    const action = updateTaskAC('todolistId2', '2', model)
 
     const endState = tasksReducer(startState, action)
 
@@ -194,7 +194,7 @@ test('title of specified task should be changed', () => {
         startDate: '',
         priority: TodoTaskPriorities.Hi
     }
-    const action = updateTaskAC('2', model, 'todolistId2')
+    const action = updateTaskAC('todolistId2', '2', model)
 
     const endState = tasksReducer(startState, action)
 
