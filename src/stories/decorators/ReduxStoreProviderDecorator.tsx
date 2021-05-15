@@ -36,6 +36,7 @@ const initialGlobalState = {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             },
             {
                 id: v1(),
@@ -48,6 +49,7 @@ const initialGlobalState = {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             },
         ],
 
@@ -63,6 +65,7 @@ const initialGlobalState = {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             },
             {
                 id: v1(),
@@ -75,6 +78,7 @@ const initialGlobalState = {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             }
         ]
     } as TasksStateType

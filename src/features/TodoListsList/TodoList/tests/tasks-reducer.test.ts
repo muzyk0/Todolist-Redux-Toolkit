@@ -1,12 +1,6 @@
-import {addTaskAC, removeTaskAC, tasksReducer, TasksStateType, updateTaskAC} from '../tasks-reducer';
+import {addTaskAC, removeTaskAC, TaskDomainType, tasksReducer, TasksStateType, updateTaskAC} from '../tasks-reducer';
 import {addTodolistAC, removeTodoListAC} from '../totolists-reducer';
-import {
-    TaskStatuses,
-    TaskType,
-    TodoListType,
-    TodoTaskPriorities,
-    UpdateTaskModelType
-} from '../../../../api/todolist-api';
+import {TaskStatuses, TodoListType, TodoTaskPriorities, UpdateTaskModelType} from '../../../../api/todolist-api';
 
 let startState: TasksStateType
 beforeEach(() => {
@@ -23,6 +17,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             },
             {
                 id: '2',
@@ -35,6 +30,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             },
             {
                 id: '3',
@@ -47,6 +43,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             }
         ],
         'todolistId2': [
@@ -61,6 +58,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             },
             {
                 id: '2',
@@ -73,6 +71,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             },
             {
                 id: '3',
@@ -85,6 +84,7 @@ beforeEach(() => {
                 startDate: '',
                 deadline: '',
                 addedDate: '',
+                entityStatus: 'idle',
             }
         ]
     };
@@ -106,7 +106,9 @@ test('correct task should be deleted from correct array', () => {
                 priority: TodoTaskPriorities.Hi,
                 startDate: '',
                 deadline: '',
-                addedDate: '',},
+                addedDate: '',
+                entityStatus: 'idle',
+            },
             {id: '2', title: 'JS', status: TaskStatuses.Completed,
                 description: '',
                 todoListId: 'todolistId1',
@@ -114,7 +116,9 @@ test('correct task should be deleted from correct array', () => {
                 priority: TodoTaskPriorities.Hi,
                 startDate: '',
                 deadline: '',
-                addedDate: '',},
+                addedDate: '',
+                entityStatus: 'idle',
+            },
             {id: '3', title: 'React', status: TaskStatuses.New,
                 description: '',
                 todoListId: 'todolistId1',
@@ -122,7 +126,9 @@ test('correct task should be deleted from correct array', () => {
                 priority: TodoTaskPriorities.Hi,
                 startDate: '',
                 deadline: '',
-                addedDate: '',}
+                addedDate: '',
+                entityStatus: 'idle',
+            }
         ],
         'todolistId2': [
             {id: '1', title: 'bread', status: TaskStatuses.New,
@@ -132,7 +138,9 @@ test('correct task should be deleted from correct array', () => {
                 priority: TodoTaskPriorities.Hi,
                 startDate: '',
                 deadline: '',
-                addedDate: '',},
+                addedDate: '',
+                entityStatus: 'idle',
+            },
             {id: '3', title: 'tea', status: TaskStatuses.New,
                 description: '',
                 todoListId: 'todolistId2',
@@ -140,13 +148,15 @@ test('correct task should be deleted from correct array', () => {
                 priority: TodoTaskPriorities.Hi,
                 startDate: '',
                 deadline: '',
-                addedDate: '',}
+                addedDate: '',
+                entityStatus: 'idle',
+            }
         ]
     });
 
 });
 test('correct task should be added to correct array', () => {
-    const task: TaskType = {
+    const task: TaskDomainType = {
         id: '1',
         title: 'juce',
         todoListId: 'todolistId2',
@@ -156,7 +166,8 @@ test('correct task should be added to correct array', () => {
         description: '',
         deadline: '',
         addedDate: '',
-        startDate: ''
+        startDate: '',
+        entityStatus: 'idle',
     }
     const action = addTaskAC(task)
 

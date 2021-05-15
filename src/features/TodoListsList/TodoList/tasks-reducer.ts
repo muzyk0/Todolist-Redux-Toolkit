@@ -1,15 +1,7 @@
-import {
-    addTodolistAC,
-    AddTodoListActionType, changeTodolistEntityStatusAC, removeTodoListAC,
-    RemoveTodoListActionType,
-    setTodoListAC,
-    SetTodoListActionType
-} from './totolists-reducer';
+import {AddTodoListActionType, RemoveTodoListActionType, SetTodoListActionType} from './totolists-reducer';
 import {TaskStatuses, TaskType, todolistAPI, TodoTaskPriorities, UpdateTaskModelType} from '../../../api/todolist-api';
-import {Dispatch} from 'redux';
 import {AppRootStateType, AppThunk} from '../../../app/store';
-import {setAppError, SetAppErrorType, setAppStatus, SetAppStatusType} from '../../../app/app-reducer';
-import {AxiosError} from 'axios'
+import {RequestStatusType, SetAppErrorType, setAppStatus, SetAppStatusType} from '../../../app/app-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../../../utils/error-utils';
 
 const initialState: TasksStateType = {
@@ -40,7 +32,7 @@ export const tasksReducer = (state = initialState, action: TasksActionType): Tas
             return copy
         }
         case 'SET-TASKS':
-            return {...state, [action.todoListId]: action.tasks}
+            return {...state, [action.todoListId]: action.tasks.map(t => ({...t, entityStatus: 'idle'}))}
         case 'REMOVE-TASK':
             return {
                 ...state,
@@ -49,7 +41,7 @@ export const tasksReducer = (state = initialState, action: TasksActionType): Tas
         case 'ADD-TASK':
             return {
                 ...state,
-                [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]
+                [action.task.todoListId]: [{...action.task, entityStatus: 'idle'}, ...state[action.task.todoListId]]
             }
         case 'UPDATE-TASK':
             return {
@@ -69,6 +61,15 @@ export const tasksReducer = (state = initialState, action: TasksActionType): Tas
             delete copyState[action.id]
             return copyState
         }
+        case 'CHANGE-TASK-ENTITY-STATUS': {
+            return {
+                ...state,
+                [action.todoListId]: state[action.todoListId]
+                    .map(task => task.id === action.taskId
+                        ? {...task, entityStatus: action.entityStatus}
+                        : task)
+            }
+        }
         default:
             return state
     }
@@ -83,6 +84,12 @@ export const addTaskAC = (task: TaskType) =>
     ({type: 'ADD-TASK', task} as const)
 export const updateTaskAC = (todoListId: string, taskId: string, model: UpdateTaskModelType) =>
     ({type: 'UPDATE-TASK', model, todoListId, taskId} as const)
+export const changeTaskEntityStatusAC = (todoListId: string, taskId: string, entityStatus: RequestStatusType) => ({
+    type: 'CHANGE-TASK-ENTITY-STATUS',
+    todoListId,
+    taskId,
+    entityStatus
+} as const)
 
 // Thunk Creators
 export const fetchTasks = (todoListId: string): AppThunk => async dispatch => {
@@ -145,10 +152,12 @@ export const updateTask = (todoListID: string, taskID: string, model: UpdateDoma
 
     try {
         dispatch(setAppStatus('loading'))
+        dispatch(changeTaskEntityStatusAC(todoListID, taskID, 'loading'))
         const res = await todolistAPI.updateTask(todoListID, taskID, apiModel)
         if (res.data.resultCode === 0) {
             dispatch(updateTaskAC(todoListID, taskID, apiModel))
             dispatch(setAppStatus('succeeded'))
+            dispatch(changeTaskEntityStatusAC(todoListID, taskID, 'succeeded'))
         } else {
             handleServerAppError(res.data, dispatch)
         }
@@ -163,6 +172,7 @@ export type TasksActionType =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
     | ReturnType<typeof updateTaskAC>
+    | ReturnType<typeof changeTaskEntityStatusAC>
     | AddTodoListActionType
     | RemoveTodoListActionType
     | SetTodoListActionType
@@ -179,5 +189,8 @@ export type UpdateDomainTaskModelType = {
 }
 
 export type TasksStateType = {
-    [key: string]: TaskType[]
+    [key: string]: TaskDomainType[]
+}
+export type TaskDomainType = TaskType & {
+    entityStatus: RequestStatusType
 }
