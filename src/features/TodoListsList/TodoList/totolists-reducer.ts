@@ -1,5 +1,6 @@
 import {todolistAPI, TodoListType} from '../../../api/todolist-api';
 import {AppThunk} from '../../../app/store';
+import {setAppError, setAppStatus, SetAppStatusType} from '../../../app/app-reducer';
 
 const initialState: TodoListDomainType[] = []
 
@@ -31,34 +32,50 @@ export const changeTodoListFilterAC = (id: string, filter: FilterValuesType) => 
 // Async/Await func
 export const fetchTodoLists = (): AppThunk => async dispatch => {
     try {
+        dispatch(setAppStatus('loading'))
         const response = await todolistAPI.getTodos()
         const todoLists = response.data
         dispatch(setTodoListAC(todoLists))
+        dispatch(setAppStatus('succeeded'))
     } catch {
         console.log('error')
     }
 }
 export const createTodoList = (title: string): AppThunk => dispatch => {
+    dispatch(setAppStatus('loading'))
     todolistAPI.createTodo(title)
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(addTodolistAC(res.data.data.item))
+                setAppStatus('succeeded')
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setAppError(res.data.messages[0]))
+                } else {
+                    dispatch(setAppError('Some error occurred'))
+                }
+                dispatch(setAppStatus('failed'))
+
             }
         })
 }
 export const deleteTodoList = (todoListId: string): AppThunk => dispatch => {
+    dispatch(setAppStatus('loading'))
     todolistAPI.deleteTodo(todoListId)
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(removeTodoListAC(todoListId))
+                setAppStatus('succeeded')
             }
         })
 }
 export const updateTodoListTitle = (todolistId: string, title: string): AppThunk => dispatch => {
+    dispatch(setAppStatus('loading'))
     todolistAPI.updateTodoTitle(todolistId, title)
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(changeTodoListTitleAC(todolistId, title))
+                setAppStatus('succeeded')
             }
         })
 }
@@ -72,6 +89,7 @@ export type TodoListActionType =
     | SetTodoListActionType
     | AddTodoListActionType
     | RemoveTodoListActionType
+    | SetAppStatusType
     | ReturnType<typeof changeTodoListTitleAC>
     | ReturnType<typeof changeTodoListFilterAC>
 
