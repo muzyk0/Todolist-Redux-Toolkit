@@ -10,6 +10,7 @@ export type TaskPropsType = {
     removeTask: (taskID: string) => void
     changeTaskStatus: (taskID: string, status: TaskStatuses) => void
     changeTaskTitle: (taskID: string, newTitle: string) => void
+    disabled?: boolean
 }
 export const Task: React.FC<TaskPropsType> = React.memo((props) => {
 
@@ -35,9 +36,10 @@ export const Task: React.FC<TaskPropsType> = React.memo((props) => {
             <Checkbox
                 checked={task.status === TaskStatuses.Completed}
                 onChange={onChangeHandler}
+                disabled={props.disabled}
             />
-            <EditableSpan title={task.title} changeTitle={onTitleChangeHandler}/>
-            <IconButton onClick={onClickHandler}>
+            <EditableSpan title={task.title} changeTitle={onTitleChangeHandler} disabled={props.disabled}/>
+            <IconButton onClick={onClickHandler} disabled={props.disabled}>
                 <Delete/>
             </IconButton>
         </li>

@@ -8,11 +8,13 @@ import {TaskStatuses, TaskType} from '../../../api/todolist-api';
 import {FilterValuesType} from './totolists-reducer';
 import {useDispatch} from 'react-redux';
 import {fetchTasks} from './tasks-reducer';
+import {RequestStatusType} from '../../../app/app-reducer';
 
 type TodoListPropsType = {
     todoListID: string
     title: string
     filter: FilterValuesType
+    entityStatus: RequestStatusType
     tasks: Array<TaskType>
     addTask: (todoListID: string, taskID: string) => void
     removeTask: (todoListID: string, taskID: string) => void
@@ -74,28 +76,6 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
         }
     }
 
-    // const tasks = tasksForTodolist.map(task => {
-    //         const removeTask = () => props.removeTask(task.id, props.todoListID)
-    //         const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) =>
-    //             props.changeTaskStatus(task.id, e.currentTarget.checked, props.todoListID)
-    //         const changeTaskTitle = (newTitle: string) => {
-    //             props.changeTaskTitle(task.id, newTitle, props.todoListID)
-    //         }
-    //         return (
-    //             <li style={task.isDone ? {opacity: '0.5'} : {opacity: 1}} key={task.id}>
-    //                 <Checkbox
-    //                     checked={task.isDone}
-    //                     onChange={changeTaskStatus}
-    //                 />
-    //                 <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
-    //                 <IconButton onClick={removeTask}>
-    //                     <Delete/>
-    //                 </IconButton>
-    //             </li>
-    //         )
-    //     }
-    // )
-
     const removeTask = useCallback((taskID: string) => {
         props.removeTask(todoListID, taskID)
     }, [todoListID, props.removeTask])
@@ -121,12 +101,12 @@ export const TodoList = React.memo((props: TodoListPropsType) => {
     return (
         <div>
             <h3>
-                <EditableSpan title={title} changeTitle={changeTodoListTitle}/>
-                <IconButton onClick={removeTodoList}>
+                <EditableSpan title={title} changeTitle={changeTodoListTitle} disabled={props.entityStatus === 'loading'}/>
+                <IconButton onClick={removeTodoList} disabled={props.entityStatus === 'loading'}>
                     <Delete/>
                 </IconButton>
             </h3>
-            <AddItemForm addItem={addTask}/>
+            <AddItemForm addItem={addTask} disabled={props.entityStatus === 'loading'}/>
             <ul style={{listStyle: 'none', paddingLeft: 0}}>
                 {tasks}
             </ul>

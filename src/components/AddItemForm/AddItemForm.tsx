@@ -4,6 +4,7 @@ import {IconButton, TextField} from '@material-ui/core';
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
@@ -39,8 +40,9 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
                 value={title}
                 onChange={changeTitle}
                 onKeyPress={onKeyPressAddItem}
+                disabled={props.disabled}
             />
-            <IconButton onClick={addItem}>
+            <IconButton onClick={addItem} disabled={props.disabled}>
                 <ControlPoint/>
             </IconButton>
             {/*{error && <div className={'errorMessage'}>'Title is required!'</div>} /!*{error}*!/*/}
