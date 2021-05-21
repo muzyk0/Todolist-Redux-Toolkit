@@ -2,6 +2,7 @@ import {authAPI, LoginParamsType} from '../../api/todolist-api';
 import {AppThunk} from '../../app/store';
 import {SetAppErrorType, setAppStatus, SetAppStatusType} from '../../app/app-reducer';
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils';
+import {clearTodoListsData} from '../TodoListsList/TodoList/totolists-reducer';
 
 const initialState = {
     isLoggedIn: false
@@ -42,6 +43,7 @@ export const LogoutTC = (): AppThunk => async dispatch => {
         const res = await authAPI.logout()
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedIn(false))
+            dispatch(clearTodoListsData())
             dispatch(setAppStatus('succeeded'))
         } else {
             handleServerAppError(res.data, dispatch)
