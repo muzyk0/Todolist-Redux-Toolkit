@@ -40,6 +40,18 @@ export const todolistAPI = {
     },
 }
 
+export const authAPI = {
+    login(data: LoginParamsType) {
+        return instance.post<ResponseType<{ userId: number }>>('auth/login', data)
+    },
+    logout() {
+        return instance.delete<ResponseType<{ userId: number }>>('auth/login')
+    },
+    me() {
+        return instance.get<ResponseType<AuthMeType>>('auth/me')
+    }
+}
+
 // Types
 export enum TaskStatuses {
     New,
@@ -92,4 +104,17 @@ export type UpdateTaskModelType = {
     priority: TodoTaskPriorities
     startDate: string
     deadline: string
+}
+
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+
+type AuthMeType = {
+    id: number
+    email: string
+    login: string
 }
