@@ -97,6 +97,8 @@ test('correct task should be deleted from correct array', () => {
 
     const endState = tasksReducer(startState, action)
 
+    expect(endState['todolistId2'][1].id).not.toBe('2')
+    expect(endState['todolistId2'].find(t => t.id === '2')).not.toBeDefined()
     expect(endState).toEqual({
         'todolistId1': [
             {id: '1', title: 'CSS', status: TaskStatuses.New,
