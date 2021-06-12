@@ -17,8 +17,11 @@ import {TodoList} from './TodoList/TodoList';
 import {AddItemForm} from '../../components/AddItemForm/AddItemForm';
 import {Redirect} from 'react-router-dom';
 
-type TodoListsListPropsType = {}
-export const TodoListsList: React.FC<TodoListsListPropsType> = () => {
+interface Props {
+    demo?: boolean
+}
+
+export const TodoListsList: React.FC<Props> = ({demo= false}) => {
 
     const todoLists = useSelector<AppRootStateType, TodoListDomainType[]>(state => state.todoLists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
@@ -26,8 +29,8 @@ export const TodoListsList: React.FC<TodoListsListPropsType> = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            return
+        if (demo || !isLoggedIn) {
+            return;
         }
         dispatch(fetchTodoLists())
     }, [])

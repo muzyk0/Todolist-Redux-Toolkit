@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
     tasks: tasksReducer,
     todoLists: todoListsReducer,
     app: appReducer,
-    auth: authReducer
+    auth: authReducer,
 })
 
 export const store = configureStore({
@@ -18,4 +18,5 @@ export const store = configureStore({
     middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk)
 })
 
-export type AppRootStateType = ReturnType<typeof rootReducer>
+export type RootReducerType = typeof rootReducer
+export type AppRootStateType = ReturnType<RootReducerType>

@@ -61,3 +61,4 @@ export const {
  * Types
  * */
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+export type InitialStateType = typeof initialState

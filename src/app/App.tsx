@@ -21,8 +21,11 @@ import {Route, Switch, Redirect} from 'react-router-dom'
 import {Login} from '../features/Login/Login';
 import {LogoutTC} from '../features/Login/authReducer';
 
+interface Props {
+    demo?: boolean
+}
 
-export function App() {
+export const App: React.FC<Props> = ({demo = false}) => {
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
             root: {
@@ -44,7 +47,9 @@ export function App() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(InitializeApp())
+        if (!demo) {
+            dispatch(InitializeApp())
+        }
     }, [])
 
     if (!isInitialized) {
@@ -75,11 +80,11 @@ export function App() {
             {status === 'loading' && <LinearProgress color="secondary"/>}
             <Container fixed>
                 <Switch>
-                    <Route exact path={'/'} render={() => <TodoListsList/>}/>
+                    <Route exact path={'/'} render={() => <TodoListsList demo={demo}/>}/>
                     <Route exact path={'/login'} render={() => <Login/>}/>
 
                     <Route exact path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
-                    <Redirect from={'*'} to={'/404'} />
+                    <Redirect from={'*'} to={'/404'}/>
                 </Switch>
             </Container>
         </div>
