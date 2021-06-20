@@ -15,7 +15,7 @@ import {Menu} from '@material-ui/icons';
 import {TodoListsList} from '../features/TodoListsList/TodoListsList';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './store';
-import {InitializeApp, RequestStatusType} from './app-reducer';
+import {initializeApp, RequestStatusType} from './app-reducer';
 import {ErrorSnackbar} from '../components/ErrorSnackbar';
 import {Route, Switch, Redirect} from 'react-router-dom'
 import {Login} from '../features/Login/Login';
@@ -48,7 +48,7 @@ export const App: React.FC<Props> = ({demo = false}) => {
 
     useEffect(() => {
         if (!demo) {
-            dispatch(InitializeApp())
+            dispatch(initializeApp())
         }
     }, [])
 

@@ -1,32 +1,32 @@
 import React from 'react'
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@material-ui/core'
-import {useFormik} from 'formik';
-import {useDispatch, useSelector} from 'react-redux';
+import {FormikHelpers, useFormik} from 'formik';
+import {useSelector} from 'react-redux';
 import {LoginTC} from './authReducer';
-import {AppRootStateType} from '../../app/store';
+import {AppRootStateType, useAppDispatch} from '../../app/store';
 import {Redirect} from 'react-router-dom';
 
-type FormikErrorType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
-    captcha?: string
+type FormValues = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: string
 }
 
 export const Login = () => {
 
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const formik = useFormik({
-        initialValues: {
+        initialValues:  {
             email: '',
             password: '',
-            rememberMe: false
-
+            rememberMe: false,
+            captcha: '',
         },
         validate: (values) => {
-            const errors: FormikErrorType = {}
+            const errors: Partial<FormValues> = {}
             if (!values.email) {
                 errors.email = 'Required'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -39,9 +39,15 @@ export const Login = () => {
             }
             return errors;
         },
-        onSubmit: values => {
-            dispatch(LoginTC(values))
-            formik.resetForm()
+        onSubmit: async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
+            const action = await dispatch(LoginTC(values))
+
+            if (LoginTC.rejected.match(action)) {
+                if (action.payload?.fieldsErrors?.length) {
+                    const error = action.payload?.fieldsErrors[0]
+                    formikHelpers.setFieldError(error.field, error.error)
+                }
+            }
         }
     })
 

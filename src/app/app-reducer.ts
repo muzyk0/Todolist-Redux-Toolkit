@@ -1,27 +1,28 @@
-
 import {authAPI} from '../api/todolist-api';
 import {setIsLoggedIn} from '../features/Login/authReducer';
 import {handleServerAppError, handleServerNetworkError} from '../utils/error-utils';
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Dispatch} from 'redux';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {AxiosError} from 'axios';
 
 /**
  * Thunk
  * */
-export const InitializeApp = () => async (dispatch: Dispatch) => {
+export const initializeApp = createAsyncThunk('app/initializeApp', async (param, thunkAPI) => {
+    const {dispatch, rejectWithValue} = thunkAPI
     try {
         const res = await authAPI.me()
         if (res.data.resultCode === 0) {
             dispatch(setIsLoggedIn({isLoggedIn: true}))
+            return
         } else {
             handleServerAppError(res.data, dispatch)
         }
-    } catch (error) {
+    } catch (e) {
+        const error: AxiosError = e
         handleServerNetworkError(error, dispatch)
-    } finally {
-        dispatch(setIsInitialized({isInitialized: true}))
+        return rejectWithValue(error.message)
     }
-}
+})
 
 /**
  * Reducers
@@ -42,9 +43,15 @@ const slice = createSlice({
         setAppError: (state, action: PayloadAction<{ error: string | null }>) => {
             state.error = action.payload.error
         },
-        setIsInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
-            state.isInitialized = action.payload.isInitialized
-        }
+        // setIsInitialized: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
+        //     state.isInitialized = action.payload.isInitialized
+        // }
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(initializeApp.fulfilled, (state) => {
+                state.isInitialized = true
+            })
     }
 })
 
@@ -52,9 +59,7 @@ export const appReducer = slice.reducer
 export const {
     setAppStatus,
     setAppError,
-    setIsInitialized
 } = slice.actions
-
 
 
 /**

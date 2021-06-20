@@ -91,7 +91,7 @@ const initialGlobalState: AppRootStateType = {
     } as TasksStateType,
     app: {
         error: null,
-        status: 'idle',
+        status: 'succeeded',
         isInitialized: true
     },
     auth: {
