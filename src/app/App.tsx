@@ -1,56 +1,64 @@
-import React, {useEffect} from 'react';
-import './App.css';
+import React, {useCallback, useEffect} from 'react'
+import './App.css'
 import {
     AppBar,
-    Button, CircularProgress,
+    Button,
+    CircularProgress,
     Container,
     createStyles,
-    IconButton, LinearProgress,
+    IconButton,
+    LinearProgress,
     makeStyles,
     Theme,
     Toolbar,
     Typography
-} from '@material-ui/core';
-import {Menu} from '@material-ui/icons';
-import {TodoListsList} from '../features/TodoListsList/TodoListsList';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from './store';
-import {initializeApp, RequestStatusType} from './app-reducer';
-import {ErrorSnackbar} from '../components/ErrorSnackbar';
-import {Route, Switch, Redirect} from 'react-router-dom'
-import {Login} from '../features/Login/Login';
-import {LogoutTC} from '../features/Login/authReducer';
+} from '@material-ui/core'
+import {Menu} from '@material-ui/icons'
+import {TodolistsList} from '../features/TodolistsList'
+import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
+import {useSelector} from 'react-redux'
+import {appActions} from '../features/Application'
+import {Redirect, Route, Switch} from 'react-router-dom'
+import {authActions, authSelectors, Login} from '../features/Auth'
+import {selectIsInitialized, selectStatus} from '../features/Application/selectors'
+import {useActions} from '../utils/redux-utils'
 
-interface Props {
+type PropsType = {
     demo?: boolean
 }
 
-export const App: React.FC<Props> = ({demo = false}) => {
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            root: {
-                flexGrow: 1,
-            },
-            menuButton: {
-                marginRight: theme.spacing(2),
-            },
-            title: {
-                flexGrow: 1,
-            },
-        }),
-    );
-    const classes = useStyles();
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            flexGrow: 1,
+        },
+        menuButton: {
+            marginRight: theme.spacing(2),
+        },
+        title: {
+            flexGrow: 1,
+        },
+    }),
+);
 
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const dispatch = useDispatch()
+function App({demo = false}: PropsType) {
+    const classes = useStyles();
+    const status = useSelector(selectStatus)
+    const isInitialized = useSelector(selectIsInitialized)
+    const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
+
+    const {logout} = useActions(authActions)
+    const {initializeApp} = useActions(appActions)
 
     useEffect(() => {
         if (!demo) {
-            dispatch(initializeApp())
+            initializeApp()
         }
-    }, [])
+    }, [demo, initializeApp])
+
+    const logoutHandler = useCallback(() => {
+        logout()
+    }, [logout])
 
     if (!isInitialized) {
         return <div
@@ -59,12 +67,8 @@ export const App: React.FC<Props> = ({demo = false}) => {
         </div>
     }
 
-    const logoutHandle = () => {
-        dispatch(LogoutTC())
-    }
-
     return (
-        <div className={classes.root}>
+        <div className="App">
             <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
@@ -74,13 +78,13 @@ export const App: React.FC<Props> = ({demo = false}) => {
                     <Typography variant="h6" className={classes.title}>
                         TodoList
                     </Typography>
-                    {isLoggedIn && <Button color="inherit" onClick={logoutHandle}>Logout</Button>}
+                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
                 </Toolbar>
+                {status === 'loading' && <LinearProgress/>}
             </AppBar>
-            {status === 'loading' && <LinearProgress color="secondary"/>}
-            <Container fixed>
+            <Container maxWidth={'xl'}>
                 <Switch>
-                    <Route exact path={'/'} render={() => <TodoListsList demo={demo}/>}/>
+                    <Route exact path={'/'} render={() => <TodolistsList demo={demo}/>}/>
                     <Route exact path={'/login'} render={() => <Login/>}/>
 
                     <Route exact path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
@@ -91,4 +95,4 @@ export const App: React.FC<Props> = ({demo = false}) => {
     )
 }
 
-export default App;
+export default App

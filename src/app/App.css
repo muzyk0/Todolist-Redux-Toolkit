@@ -1,36 +1,26 @@
-/*html, body {*/
-/*    height: 100%;*/
-/*    background: url("./images/girl_with_computer.jpg") no-repeat;*/
-/*    background-size: cover;*/
-/*}*/
-/*.AppOld {*/
-/*    height: 100%;*/
-/*    padding: 30px;*/
-/*    display: flex;*/
-/*}*/
-/*.task {*/
-/*    !*background-color: rgba(0, 0, 0, 0.5);*!*/
-/*    padding: 10px;*/
-/*    border-radius: 10px;*/
-/*    color: black;*/
-/*}*/
+/*
+.Application {
+  padding: 30px;
+  display: flex;
+}
 
-/*.AppOld > div {*/
+.Application > div {
+  margin-right: 50px;
+}
 
-/*    margin-right: 50px;*/
-/*}*/
+.error {
+  border: red 1px solid;
+}
 
-/*.isDone {*/
-/*    opacity: 0.5;*/
-/*}*/
+.error-message {
+  color: red;
+}
 
-/*.selected {*/
-/*    background-color: gold;*/
-/*}*/
-/*.error {*/
-/*    border: 2px solid lightcoral;*/
-/*    outline: transparent;*/
-/*}*/
-/*.errorMessage {*/
-/*    color: red;*/
-/*}*/
+.active-filter {
+  background-color: aquamarine;
+}
+
+.is-done {
+  opacity: 0.5;
+}
+*/
