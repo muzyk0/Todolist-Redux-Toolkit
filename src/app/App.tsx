@@ -23,9 +23,7 @@ import {authActions, authSelectors, Login} from '../features/Auth'
 import {selectIsInitialized, selectStatus} from '../features/Application/selectors'
 import {useActions} from '../utils/redux-utils'
 
-type PropsType = {
-    demo?: boolean
-}
+type PropsType = {}
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -41,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-function App({demo = false}: PropsType) {
+const App: React.FC<PropsType> = () => {
     const classes = useStyles();
     const status = useSelector(selectStatus)
     const isInitialized = useSelector(selectIsInitialized)
@@ -51,10 +49,10 @@ function App({demo = false}: PropsType) {
     const {initializeApp} = useActions(appActions)
 
     useEffect(() => {
-        if (!demo) {
+        if (!isInitialized) {
             initializeApp()
         }
-    }, [demo, initializeApp])
+    }, [isInitialized, initializeApp])
 
     const logoutHandler = useCallback(() => {
         logout()
@@ -84,7 +82,7 @@ function App({demo = false}: PropsType) {
             </AppBar>
             <Container maxWidth={'xl'}>
                 <Switch>
-                    <Route exact path={'/'} render={() => <TodolistsList demo={demo}/>}/>
+                    <Route exact path={'/'} render={() => <TodolistsList demo={false}/>}/>
                     <Route exact path={'/login'} render={() => <Login/>}/>
 
                     <Route exact path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>

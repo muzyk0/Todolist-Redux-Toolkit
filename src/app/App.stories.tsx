@@ -10,6 +10,6 @@ export default {
     decorators: [ReduxStoreProviderDecorator, BrowserRouterDecorator]
 } as Meta
 
-const Template: Story = () => <App demo={true}/>
+const Template: Story = () => <App/>
 
 export const AppExample = Template.bind({})
