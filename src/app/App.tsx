@@ -18,7 +18,7 @@ import {TodolistsList} from '../features/TodolistsList'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {useSelector} from 'react-redux'
 import {appActions} from '../features/Application'
-import {Redirect, Route, Switch} from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 import {authActions, authSelectors, Login} from '../features/Auth'
 import {selectIsInitialized, selectStatus} from '../features/Application/selectors'
 import {useActions} from '../utils/redux-utils'
@@ -88,7 +88,7 @@ function App({demo = false}: PropsType) {
                     <Route exact path={'/login'} render={() => <Login/>}/>
 
                     <Route exact path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
-                    <Redirect from={'*'} to={'/404'}/>
+                    {/*<Redirect from={'*'} to={'/404'}/>*/}
                 </Switch>
             </Container>
         </div>
