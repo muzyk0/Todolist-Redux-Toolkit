@@ -1,6 +1,6 @@
 import {Meta, Story} from '@storybook/react';
 import {action} from '@storybook/addon-actions';
-import {EditableSpan} from '../components/EdditableSpan/EditableSpan';
+import {EditableSpan, EditableSpanProps} from '../components/EdditableSpan/EditableSpan';
 
 export default {
     title: 'Todolist/EditableSpan',
@@ -16,7 +16,7 @@ export default {
     }
 } as Meta
 
-const Template: Story<EditableSpan> = (args) => <EditableSpan {...args}/>
+const Template: Story<EditableSpanProps> = (args) => <EditableSpan {...args}/>
 
 
 export const EditableSpanExample = Template.bind({})

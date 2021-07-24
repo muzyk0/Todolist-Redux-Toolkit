@@ -1,9 +1,22 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
-import {TodoListActionType, todoListsReducer} from '../features/TodoListsList/TodoList/totolists-reducer';
-import {TasksActionType, tasksReducer} from '../features/TodoListsList/TodoList/tasks-reducer';
-import thunk, {ThunkAction} from 'redux-thunk';
-import {appActionActionsType, appReducer} from './app-reducer';
-import {authReducer, AuthReducerActionType} from '../features/Login/authReducer';
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import createSagaMiddleware from "redux-saga";
+import { all } from "redux-saga/effects";
+import thunk, { ThunkAction } from "redux-thunk";
+import {
+    authReducer,
+    AuthReducerActionType,
+} from "../features/Login/authReducer";
+import {
+    TasksActionType,
+    tasksReducer,
+} from "../features/TodoListsList/TodoList/tasks-reducer";
+import { tasksWatcherSaga } from "../features/TodoListsList/TodoList/tasks-sagas";
+import {
+    TodoListActionType,
+    todoListsReducer,
+} from "../features/TodoListsList/TodoList/totolists-reducer";
+import { appActionActionsType, appReducer } from "./app-reducer";
+import { appWatcherSaga } from "./app-sagas";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -11,17 +24,35 @@ const rootReducer = combineReducers({
     tasks: tasksReducer,
     todoLists: todoListsReducer,
     app: appReducer,
-    auth: authReducer
-})
+    auth: authReducer,
+});
+
+const sagaMiddleware = createSagaMiddleware();
+
 // непосредственно создаём store
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore(
+    rootReducer,
+    applyMiddleware(thunk, sagaMiddleware)
+);
+
+sagaMiddleware.run(rootWatcher);
+
+function* rootWatcher() {
+    yield all([appWatcherSaga(), tasksWatcherSaga()]);
+}
+
 // определить автоматически тип всего объекта состояния
-export type AppRootStateType = ReturnType<typeof rootReducer>
+export type AppRootStateType = ReturnType<typeof rootReducer>;
 
-export type AppActionTypes = TasksActionType | TodoListActionType | appActionActionsType | AuthReducerActionType
+export type AppActionTypes =
+    | TasksActionType
+    | TodoListActionType
+    | appActionActionsType
+    | AuthReducerActionType;
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppActionTypes>
-
-// а это, чтобы можно было в консоли браузера обращаться к store в любой момент
-// @ts-ignore
-window.store = store;
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    AppRootStateType,
+    unknown,
+    AppActionTypes
+>;
