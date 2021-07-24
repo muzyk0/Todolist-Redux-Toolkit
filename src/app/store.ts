@@ -11,6 +11,7 @@ import {
     tasksReducer,
 } from "../features/TodoListsList/TodoList/tasks-reducer";
 import { tasksWatcherSaga } from "../features/TodoListsList/TodoList/tasks-sagas";
+import { todoListsWatcherSaga } from "../features/TodoListsList/TodoList/todolists-sagas";
 import {
     TodoListActionType,
     todoListsReducer,
@@ -38,7 +39,7 @@ export const store = createStore(
 sagaMiddleware.run(rootWatcher);
 
 function* rootWatcher() {
-    yield all([appWatcherSaga(), tasksWatcherSaga()]);
+    yield all([appWatcherSaga(), tasksWatcherSaga(), todoListsWatcherSaga()]);
 }
 
 // определить автоматически тип всего объекта состояния

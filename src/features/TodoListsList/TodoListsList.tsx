@@ -5,21 +5,19 @@ import { Redirect } from "react-router-dom";
 import { TaskStatuses } from "../../api/todolist-api";
 import { AppRootStateType } from "../../app/store";
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
-import {
-    createTask,
-    TasksStateType,
-    updateTask,
-} from "./TodoList/tasks-reducer";
-import { deleteTask } from "./TodoList/tasks-sagas";
+import { TasksStateType } from "./TodoList/tasks-reducer";
+import { createTask, deleteTask, updateTask } from "./TodoList/tasks-sagas";
 import { TodoList } from "./TodoList/TodoList";
 import {
-    changeTodoListFilterAC,
     createTodoList,
     deleteTodoList,
     fetchTodoLists,
+    updateTodoListTitle,
+} from "./TodoList/todolists-sagas";
+import {
+    changeTodoListFilterAC,
     FilterValuesType,
     TodoListDomainType,
-    updateTodoListTitle,
 } from "./TodoList/totolists-reducer";
 
 type TodoListsListPropsType = {};

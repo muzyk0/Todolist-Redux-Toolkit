@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { authAPI, AuthMeType, ResponseType } from "../api/todolist-api";
 import { setIsLoggedIn } from "../features/Login/authReducer";
@@ -11,11 +12,13 @@ import { setIsInitialized } from "./app-reducer";
 
 export function* InitializeAppWorkerSaga() {
     try {
-        const res: ResponseType<AuthMeType> = yield call(authAPI.me);
-        if (res.resultCode === 0) {
+        const res: AxiosResponse<ResponseType<AuthMeType>> = yield call(
+            authAPI.me
+        );
+        if (res.data.resultCode === 0) {
             yield put(setIsLoggedIn(true));
         } else {
-            handleServerAppError(res, put);
+            handleServerAppError(res.data, put);
         }
     } catch (error) {
         handleServerNetworkError(error, put);
