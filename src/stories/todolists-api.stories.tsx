@@ -12,7 +12,7 @@ export const GetTodoLists = () => {
         // который в виде строки будем отображать в div-ке
 
         todolistAPI.getTodos().then((res) => {
-            setState(res.data);
+            setState(res);
         });
     }, []);
 

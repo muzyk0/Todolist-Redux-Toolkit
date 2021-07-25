@@ -16,7 +16,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { ErrorSnackbar } from "../components/ErrorSnackbar";
-import { LogoutTC } from "../features/Login/authReducer";
+import { logout } from "../features/Login/auth-sagas";
 import { Login } from "../features/Login/Login";
 import { TodoListsList } from "../features/TodoListsList/TodoListsList";
 import { RequestStatusType } from "./app-reducer";
@@ -71,7 +71,7 @@ export function App() {
     }
 
     const logoutHandle = () => {
-        dispatch(LogoutTC());
+        dispatch(logout());
     };
 
     return (

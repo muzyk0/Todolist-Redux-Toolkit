@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { all } from "redux-saga/effects";
 import thunk, { ThunkAction } from "redux-thunk";
+import { authWatcherSaga } from "../features/Login/auth-sagas";
 import {
     authReducer,
     AuthReducerActionType,
@@ -39,7 +40,12 @@ export const store = createStore(
 sagaMiddleware.run(rootWatcher);
 
 function* rootWatcher() {
-    yield all([appWatcherSaga(), tasksWatcherSaga(), todoListsWatcherSaga()]);
+    yield all([
+        authWatcherSaga(),
+        appWatcherSaga(),
+        tasksWatcherSaga(),
+        todoListsWatcherSaga(),
+    ]);
 }
 
 // определить автоматически тип всего объекта состояния

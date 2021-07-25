@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1/",
@@ -10,77 +10,93 @@ const instance = axios.create({
 
 // API
 export const todolistAPI = {
-    getTodos(): Promise<AxiosResponse<Array<TodoListType>>> {
-        return instance.get<Array<TodoListType>>("todo-lists");
+    async getTodos(): Promise<Array<TodoListType>> {
+        const res = await instance.get<Array<TodoListType>>("todo-lists");
+        return res.data;
     },
-    createTodo(
+    async createTodo(
         title: string
-    ): Promise<AxiosResponse<ResponseType<{ item: TodoListType }>>> {
-        return instance.post<ResponseType<{ item: TodoListType }>>(
+    ): Promise<ResponseType<{ item: TodoListType }>> {
+        const res = await instance.post<ResponseType<{ item: TodoListType }>>(
             "todo-lists",
             { title }
         );
+        return res.data;
     },
-    deleteTodo(todolistId: string): Promise<AxiosResponse<ResponseType>> {
-        return instance.delete<ResponseType>(`todo-lists/${todolistId}`);
+    async deleteTodo(todolistId: string): Promise<ResponseType> {
+        const res = await instance.delete<ResponseType>(
+            `todo-lists/${todolistId}`
+        );
+        return res.data;
     },
-    updateTodoTitle(
+    async updateTodoTitle(
         todolistId: string,
         title: string
-    ): Promise<AxiosResponse<ResponseType>> {
-        return instance.put<ResponseType>(`todo-lists/${todolistId}`, {
-            title,
-        });
+    ): Promise<ResponseType> {
+        const res = await instance.put<ResponseType>(
+            `todo-lists/${todolistId}`,
+            {
+                title,
+            }
+        );
+        return res.data;
     },
 
-    getTasks(todolistId: string): Promise<AxiosResponse<GetTasksResponse>> {
-        return instance.get<GetTasksResponse>(
+    async getTasks(todolistId: string): Promise<GetTasksResponse> {
+        const res = await instance.get<GetTasksResponse>(
             `/todo-lists/${todolistId}/tasks`
         );
+        return res.data;
     },
-    createTask(
+    async createTask(
         todolistId: string,
         title: string
-    ): Promise<AxiosResponse<ResponseType<{ item: TaskType }>>> {
-        return instance.post<ResponseType<{ item: TaskType }>>(
+    ): Promise<ResponseType<{ item: TaskType }>> {
+        const res = await instance.post<ResponseType<{ item: TaskType }>>(
             `/todo-lists/${todolistId}/tasks`,
             {
                 title,
             }
         );
+        return res.data;
     },
-    updateTask(
+    async updateTask(
         todolistId: string,
         taskId: string,
         model: UpdateTaskModelType
-    ): Promise<AxiosResponse<ResponseType<TaskType>>> {
-        return instance.put<ResponseType<TaskType>>(
+    ): Promise<ResponseType<TaskType>> {
+        const res = await instance.put<ResponseType<TaskType>>(
             `/todo-lists/${todolistId}/tasks/${taskId}`,
             model
         );
+        return res.data;
     },
-    deleteTask(
+    async deleteTask(
         todolistId: string,
         taskId: string
-    ): Promise<AxiosResponse<ResponseType>> {
-        return instance.delete<ResponseType>(
+    ): Promise<ResponseType> {
+        const res = await instance.delete<ResponseType>(
             `/todo-lists/${todolistId}/tasks/${taskId}`
         );
+        return res.data;
     },
 };
 
 export const authAPI = {
-    login(data: LoginParamsType): Promise<AxiosResponse<ResponseType>> {
-        return instance.post<ResponseType<{ userId: number }>>(
+    async login(data: LoginParamsType): Promise<ResponseType> {
+        const res = await instance.post<ResponseType<{ userId: number }>>(
             "auth/login",
             data
         );
+        return res.data;
     },
-    logout(): Promise<AxiosResponse<ResponseType>> {
-        return instance.delete<ResponseType<{ userId: number }>>("auth/login");
+    async logout(): Promise<ResponseType> {
+        const res = await instance.delete<ResponseType>("auth/login");
+        return res.data;
     },
-    me(): Promise<AxiosResponse<ResponseType<AuthMeType>>> {
-        return instance.get<ResponseType<AuthMeType>>("auth/me");
+    async me(): Promise<ResponseType<AuthMeType>> {
+        const res = await instance.get<ResponseType<AuthMeType>>("auth/me");
+        return res.data;
     },
 };
 
