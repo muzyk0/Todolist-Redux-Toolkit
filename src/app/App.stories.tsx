@@ -1,15 +1,18 @@
 import React from 'react'
 import App from './App'
-import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from '../stories/decorators/ReduxStoreProviderDecorator'
-import {Meta, Story} from '@storybook/react';
+import {
+    BrowserRouterDecorator,
+    ReduxStoreProviderDecorator,
+} from '../stories/decorators/ReduxStoreProviderDecorator'
+import { Meta, Story } from '@storybook/react'
 
 export default {
     title: 'Todolist/app',
     component: App,
     argTypes: {},
-    decorators: [ReduxStoreProviderDecorator, BrowserRouterDecorator]
+    decorators: [ReduxStoreProviderDecorator, BrowserRouterDecorator],
 } as Meta
 
-const Template: Story = () => <App/>
+const Template: Story = () => <App />
 
 export const AppExample = Template.bind({})

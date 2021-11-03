@@ -1,26 +1,26 @@
 import React from 'react'
-import {action} from '@storybook/addon-actions'
-import {Task, TaskPropsType} from './Task'
-import {ReduxStoreProviderDecorator} from '../../../../stories/decorators/ReduxStoreProviderDecorator'
-import {TaskPriorities, TaskStatuses} from '../../../../api/types'
-import {Story} from '@storybook/react/types-6-0';
+import { action } from '@storybook/addon-actions'
+import { Task, TaskPropsType } from './Task'
+import { ReduxStoreProviderDecorator } from '../../../../stories/decorators/ReduxStoreProviderDecorator'
+import { TaskPriorities, TaskStatuses } from '../../../../api/types'
+import { Story } from '@storybook/react/types-6-0'
 
 export default {
     title: 'Task Stories',
     component: Task,
-    decorators: [ReduxStoreProviderDecorator]
+    decorators: [ReduxStoreProviderDecorator],
 }
 
-const removeCallback = action('Remove Button inside Task clicked');
-const changeStatusCallback = action('Status changed inside Task');
-const changeTitleCallback = action('Title changed inside Task');
+const removeCallback = action('Remove Button inside Task clicked')
+const changeStatusCallback = action('Status changed inside Task')
+const changeTitleCallback = action('Title changed inside Task')
 
-const Template: Story<TaskPropsType> = (args) => <Task {...args}/>
+const Template: Story<TaskPropsType> = (args) => <Task {...args} />
 
 const baseArgs = {
     changeTaskStatus: changeStatusCallback,
     changeTaskTitle: changeTitleCallback,
-    removeTask: removeCallback
+    removeTask: removeCallback,
 }
 export const TaskIsDoneExample = Template.bind({})
 TaskIsDoneExample.args = {

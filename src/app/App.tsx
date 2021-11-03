@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, { useCallback, useEffect } from 'react'
 import './App.css'
 import {
     AppBar,
@@ -11,17 +11,20 @@ import {
     makeStyles,
     Theme,
     Toolbar,
-    Typography
+    Typography,
 } from '@material-ui/core'
-import {Menu} from '@material-ui/icons'
-import {TodolistsList} from '../features/TodolistsList'
-import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
-import {useSelector} from 'react-redux'
-import {appActions} from '../features/Application'
-import {Route, Switch} from 'react-router-dom'
-import {authActions, authSelectors, Login} from '../features/Auth'
-import {selectIsInitialized, selectStatus} from '../features/Application/selectors'
-import {useActions} from '../utils/redux-utils'
+import { Menu } from '@material-ui/icons'
+import { TodolistsList } from '../features/TodolistsList'
+import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar'
+import { useSelector } from 'react-redux'
+import { appActions } from '../features/Application'
+import { Route, Switch } from 'react-router-dom'
+import { authActions, authSelectors, Login } from '../features/Auth'
+import {
+    selectIsInitialized,
+    selectStatus,
+} from '../features/Application/selectors'
+import { useActions } from '../utils/redux-utils'
 
 type PropsType = {}
 
@@ -36,17 +39,17 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             flexGrow: 1,
         },
-    }),
-);
+    })
+)
 
 const App: React.FC<PropsType> = () => {
-    const classes = useStyles();
+    const classes = useStyles()
     const status = useSelector(selectStatus)
     const isInitialized = useSelector(selectIsInitialized)
     const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
 
-    const {logout} = useActions(authActions)
-    const {initializeApp} = useActions(appActions)
+    const { logout } = useActions(authActions)
+    const { initializeApp } = useActions(appActions)
 
     useEffect(() => {
         if (!isInitialized) {
@@ -59,33 +62,58 @@ const App: React.FC<PropsType> = () => {
     }, [logout])
 
     if (!isInitialized) {
-        return <div
-            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
-            <CircularProgress/>
-        </div>
+        return (
+            <div
+                style={{
+                    position: 'fixed',
+                    top: '30%',
+                    textAlign: 'center',
+                    width: '100%',
+                }}
+            >
+                <CircularProgress />
+            </div>
+        )
     }
 
     return (
         <div className="App">
-            <ErrorSnackbar/>
+            <ErrorSnackbar />
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <Menu/>
+                    <IconButton
+                        edge="start"
+                        className={classes.menuButton}
+                        color="inherit"
+                        aria-label="menu"
+                    >
+                        <Menu />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
                         TodoList
                     </Typography>
-                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Log out</Button>}
+                    {isLoggedIn && (
+                        <Button color="inherit" onClick={logoutHandler}>
+                            Log out
+                        </Button>
+                    )}
                 </Toolbar>
-                {status === 'loading' && <LinearProgress/>}
+                {status === 'loading' && <LinearProgress />}
             </AppBar>
             <Container maxWidth={'xl'}>
                 <Switch>
-                    <Route exact path={'/'} render={() => <TodolistsList demo={false}/>}/>
-                    <Route exact path={'/login'} render={() => <Login/>}/>
+                    <Route
+                        exact
+                        path={'/'}
+                        render={() => <TodolistsList demo={false} />}
+                    />
+                    <Route exact path={'/login'} render={() => <Login />} />
 
-                    <Route exact path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
+                    <Route
+                        exact
+                        path={'/404'}
+                        render={() => <h1>404: PAGE NOT FOUND</h1>}
+                    />
                     {/*<Redirect from={'*'} to={'/404'}/>*/}
                 </Switch>
             </Container>
