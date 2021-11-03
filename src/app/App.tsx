@@ -14,7 +14,6 @@ import {
     Typography,
 } from '@material-ui/core'
 import { Menu } from '@material-ui/icons'
-import { TodolistsList } from '../features/TodolistsList'
 import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar'
 import { useSelector } from 'react-redux'
 import { appActions } from '../features/Application'
@@ -25,6 +24,7 @@ import {
     selectStatus,
 } from '../features/Application/selectors'
 import { useActions } from '../utils/redux-utils'
+import { TodolistsList } from '../features/TodoListsList'
 
 type PropsType = {}
 
